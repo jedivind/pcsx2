@@ -219,6 +219,7 @@ static int s_table_line = 0;
 void AttachInTable(GtkWidget* table, GtkWidget *w, int pos, int pad = 0, int size = 1)
 {
 #if GTK3_GRID_API
+	g_object_set(w, "margin-left", pad, NULL);
 	gtk_grid_attach(GTK_GRID(table), w, pos, s_table_line, size, 1);
 #else
 	GtkAttachOptions opt = (GtkAttachOptions)(GTK_EXPAND | GTK_FILL); // default
@@ -250,6 +251,7 @@ void InsertWidgetInTable(GtkWidget* table, GtkWidget *left, GtkWidget *right = N
 GtkWidget* CreateTableInBox(GtkWidget* parent_box, const char* frame_title, int row, int col) {
 #if GTK3_GRID_API
 	GtkWidget* table = gtk_grid_new();
+	g_object_set(table, "expand", true, nullptr);
 #else
 	GtkWidget* table = gtk_table_new(row, col, false);
 #endif
