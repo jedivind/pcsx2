@@ -2068,7 +2068,7 @@ void GSState::ReadFIFO(uint8* mem, int size)
 
 	if(m_dump)
 	{
-		m_dump.ReadFIFO(size);
+		m_dump->ReadFIFO(size);
 	}
 }
 
@@ -2287,7 +2287,7 @@ template<int index> void GSState::Transfer(const uint8* mem, uint32 size)
 
 	if(m_dump && mem > start)
 	{
-		m_dump.Transfer(index, start, mem - start);
+		m_dump->Transfer(index, start, mem - start);
 	}
 
 	if(index == 0)
