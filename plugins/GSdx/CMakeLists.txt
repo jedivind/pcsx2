@@ -14,10 +14,11 @@ set(CommonFlags
     -Wno-unknown-pragmas
     -Wno-parentheses
     -Wunused-variable # __dummy variable need to be investigated
+    -DLZMA_SUPPORTED  # must be always supported on linux
     )
 
 if(USE_ICC)
-	set(CommonFlags "${CommonFlags} -restrict")
+    set(CommonFlags "${CommonFlags} -restrict")
 endif()
 
 set(GSdxFinalFlags ${CommonFlags})
@@ -30,11 +31,8 @@ if(EGL_API AND EGL_FOUND)
     set(GSdxFinalFlags ${GSdxFinalFlags} -DEGL_SUPPORTED)
 endif()
 
-if(LIBLZMA_FOUND)
-	set(GSdxFinalFlags ${GSdxFinalFlags} -DLZMA_SUPPORTED)
-endif()
-
-#Clang doesn't support a few common flags that GCC does.
+# Clang doesn't support a few common flags that GCC does.
+# GCC 4.8 and GCC 4.9 requires a recent abi version
 if(NOT USE_CLANG)
     set(GSdxFinalFlags ${GSdxFinalFlags} -fabi-version=6)
 endif()
@@ -270,14 +268,11 @@ set(GSdxFinalLibs
     ${LIBC_LIBRARIES}
     ${PNG_LIBRARIES}
     ${FREETYPE_LIBRARIES}
+    ${LIBLZMA_LIBRARIES}
 )
 
 if(EGL_API AND EGL_FOUND)
     set(GSdxFinalLibs ${GSdxFinalLibs} ${EGL_LIBRARIES})
-endif()
-
-if(LIBLZMA_FOUND)
-    set(GSdxFinalLibs ${GSdxFinalLibs} ${LIBLZMA_LIBRARIES})
 endif()
 
 if(USE_VTUNE)
